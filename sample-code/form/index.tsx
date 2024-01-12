@@ -99,7 +99,7 @@ export default () => {
           <DatePicker />
         </Form.Item>
         <Form.Item name="file" label="文件">
-          <Upload action="https://raw.githubusercontent.com/quansitech/pallas-pc/private/mock/upload.json" />
+          <Upload action="/api/upload" />
         </Form.Item>
         <Form.Buttons draft form={form} initFn={draftInit} saveFn={draftSaveFn}>
           <Space>

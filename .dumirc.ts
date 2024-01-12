@@ -7,4 +7,7 @@ export default defineConfig({
   themeConfig: {
     name: 'pallas-pc',
   },
+  mock: {
+    include: ['mock/**/*.{ts,tsx}'],
+  },
 });

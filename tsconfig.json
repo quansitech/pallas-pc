@@ -8,6 +8,7 @@
     "sourceMap": true,
     "jsx": "react",
     "baseUrl": ".",
+    "noEmit": true,
     "paths": {
       "@quansitech/pallas-pc": ["src/components/index.ts"],
       "@quansitech/pallas-pc/*": ["src/components/*"]
