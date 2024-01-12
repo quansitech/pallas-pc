@@ -7,5 +7,5 @@ export type UploadProps = {
   accept?: string;
   action?: AntdUploadProps['action'];
   maxCount?: number;
-  onChange: (values: Array<UploadFile>) => void;
+  onChange?: (values: Array<UploadFile>) => void;
 };

@@ -11,7 +11,7 @@ import UploadFile from '../../common/upload-file';
 import type { UploadProps } from './type';
 
 export const Upload: React.FC<UploadProps> = (props) => {
-  const { tips, value, ...rest } = props;
+  const { tips, value, onChange = () => {}, ...rest } = props;
   const defaultUploadPorps: AntdUploadProps = {
     action: rest.action,
     accept: rest.accept,
@@ -41,7 +41,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
             } else {
               cloneList = cloneList.slice(0, rest.maxCount);
             }
-            props.onChange(
+            onChange(
               cloneList.map(
                 (item) =>
                   new UploadFile(item.id, item.uid, item.url, item.name),
@@ -53,16 +53,14 @@ export const Upload: React.FC<UploadProps> = (props) => {
         }
         // 当点击删除时回调
         if (file.status === 'removed') {
-          if (antdUploadValue) {
-            props.onChange(
-              antdUploadValue
-                .filter((item) => item.id !== file.id)
-                .map(
-                  (item) =>
-                    new UploadFile(item.id, item.uid, item.url, item.name),
-                ),
-            );
-          }
+          onChange(
+            antdUploadValue
+              .filter((item) => item.id !== file.id)
+              .map(
+                (item) =>
+                  new UploadFile(item.id, item.uid, item.url, item.name),
+              ),
+          );
         }
       },
       defaultFileList: antdUploadValue,

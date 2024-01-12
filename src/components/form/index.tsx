@@ -134,6 +134,7 @@ const FormButtons: React.FC<
   useEffect(() => {
     const init = async () => {
       if (typeof initFn === 'function') {
+        console.log(form);
         const res = await initFn(form.__INTERNAL__.name);
         console.log(res);
         if (res.status && !!res.data) {

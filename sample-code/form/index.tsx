@@ -2,7 +2,7 @@
  * defaultShowCode: true
  */
 
-import { Form } from '@quansitech/pallas-pc';
+import { Form, Upload } from '@quansitech/pallas-pc';
 import type { ApiData, draftReturnData } from '@quansitech/pallas-pc/form/type';
 import { Button, DatePicker, Input, InputNumber, Space } from 'antd';
 import dayjs from 'dayjs';
@@ -97,6 +97,9 @@ export default () => {
         </Form.Item>
         <Form.Item name="start_date" label="开始时间">
           <DatePicker />
+        </Form.Item>
+        <Form.Item name="file" label="文件">
+          <Upload action="https://raw.githubusercontent.com/quansitech/pallas-pc/private/mock/upload.json" />
         </Form.Item>
         <Form.Buttons draft form={form} initFn={draftInit} saveFn={draftSaveFn}>
           <Space>
