@@ -1,5 +1,5 @@
 import type { UploadProps as AntdUploadProps } from 'antd';
-import UploadFile from '../../../common/upload-file';
+import UploadFile from '../../upload-file';
 
 export type UploadProps = {
   tips?: string;
@@ -9,3 +9,5 @@ export type UploadProps = {
   maxCount?: number;
   onChange?: (values: Array<UploadFile>) => void;
 };
+
+export type UploadFileType = UploadFile;

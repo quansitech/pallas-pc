@@ -5,7 +5,6 @@
 import { Form, Upload } from '@quansitech/pallas-pc';
 import type { ApiData, draftReturnData } from '@quansitech/pallas-pc/form/type';
 import { Button, DatePicker, Input, InputNumber, Space } from 'antd';
-import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
 export default () => {
@@ -18,14 +17,9 @@ export default () => {
     // values是表单的数据
     console.log(values);
     setSubmitting(true);
-    await new Promise((resolve) => {
-      // 模拟表单提交数据
-      setTimeout(() => {
-        resolve({
-          status: 1,
-          data: null,
-        });
-      }, 3000);
+    await fetch('/api/submit', {
+      method: 'POST',
+      body: JSON.stringify(values),
     });
     setSubmitting(false);
   };
@@ -34,39 +28,20 @@ export default () => {
   const draftInit = async (val: string): Promise<ApiData> => {
     // val是表单的name
     console.log(val);
-    const res: ApiData = await new Promise((resolve) => {
-      // 模拟api发送请求
-      setTimeout(() => {
-        resolve({
-          status: 1,
-          data: {
-            assistance_list_id: '1',
-            amount: 100,
-            start_date: {
-              type: 'dayjs',
-              value: dayjs('2024-01-01'),
-            },
-          },
-        });
-      }, 3000);
-    });
-    return res;
+    const res: Response = await fetch(`/api/Staging?name=${val}`);
+    const data: ApiData = await res.json();
+    return data;
   };
 
   // 点击暂存按钮触发保存
   const draftSaveFn = async (val: draftReturnData): Promise<ApiData> => {
     // val.form_name是表单的名字，value.form_data是表单的数据
     console.log(val.form_name, val.form_data);
-    const res: ApiData = await new Promise((resolve) => {
-      // 模拟接口返回数据
-      setTimeout(() => {
-        resolve({
-          status: 1,
-          data: null,
-        });
-      }, 3000);
+    const res = await fetch('/api/Staging', {
+      method: 'POST',
+      body: JSON.stringify(val),
     });
-    return res;
+    return await res.json();
   };
 
   return (

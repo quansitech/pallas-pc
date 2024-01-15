@@ -34,4 +34,29 @@ order: 1
 | saveFn | 点击暂存按钮触发的事件                                    | `(val: draftReturnData) => Promise<ApiData>` | -      |
 | ...    | antd 的 Form.item 支持的所有属性（详情查看 antd 官网）    | -                                            | -      |
 
+## 参数类型
+
+```
+export type FormProps = Omit<AntdFormProps, 'onFinish'> & {
+  submitting?: boolean;
+  readonly?: boolean;
+  children?: React.ReactNode;
+  onFinish?: (values: any) => Promise<void>;
+};
+
+export type ApiData = {
+  status: number | string;
+  info?: string;
+  data: any;
+};
+
+export type draftReturnData = {
+  form_name: string;
+  form_data: any;
+};
+
+export type FormInstance = AntdFormInstance;
+export type FormItemProps = AntdFormItemProps;
+```
+
 <code src="../../sample-code/form/index.tsx"></code>

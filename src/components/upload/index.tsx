@@ -6,7 +6,7 @@ import {
   type UploadProps as AntdUploadProps,
 } from 'antd';
 import React from 'react';
-import UploadFile from '../../common/upload-file';
+import UploadFile from '../upload-file';
 
 import type { UploadProps } from './type';
 
@@ -54,8 +54,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
         // 当点击删除时回调
         if (file.status === 'removed') {
           onChange(
-            antdUploadValue
-              .filter((item) => item.id !== file.id)
+            (antdUploadValue as UploadFile[])
+              .filter((item) => item.id !== (file as UploadFile).id)
               .map(
                 (item) =>
                   new UploadFile(item.id, item.uid, item.url, item.name),

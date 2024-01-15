@@ -1,7 +1,7 @@
 import { Form as AntForm, Button, ConfigProvider, Modal, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import UploadFile from '../../common/upload-file';
+import UploadFile from '../upload-file';
 
 import type {
   ApiData,
@@ -134,8 +134,7 @@ const FormButtons: React.FC<
   useEffect(() => {
     const init = async () => {
       if (typeof initFn === 'function') {
-        console.log(form);
-        const res = await initFn(form.__INTERNAL__.name);
+        const res = await initFn((form as any).__INTERNAL__.name);
         console.log(res);
         if (res.status && !!res.data) {
           for (const [key, value] of Object.entries(res.data)) {
@@ -163,7 +162,7 @@ const FormButtons: React.FC<
       return;
     }
 
-    const formName = form.__INTERNAL__.name;
+    const formName = (form as any).__INTERNAL__.name;
 
     const formData = form.getFieldsValue();
 
