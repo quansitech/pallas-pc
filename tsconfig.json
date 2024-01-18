@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
     "strict": true,
+    "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
+    "sourceMap": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "noEmit": true,
     "paths": {
-      "@@/*": [".dumi/tmp/*"]
+      "@quansitech/pallas-pc": ["src/components/index.ts"],
+      "@quansitech/pallas-pc/*": ["src/components/*"]
     }
-  },
-  "include": [".dumirc.ts"]
+  }
 }
