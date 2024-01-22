@@ -9,8 +9,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "dumi build",
+    "build": "father build",
     "dev": "dumi dev",
+    "docs:build": "dumi build",
     "prepare": "husky install && dumi setup",
     "start": "npm run dev"
   },
