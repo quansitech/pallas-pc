@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_quansitech_pallas_pc=self.webpackChunk_quansitech_pallas_pc||[]).push([[9],{65149:function(f,a,e){e.r(a),e.d(a,{default:function(){return o}});var n=e(27544),s=e(67294),u=function(){var r=(0,n.UO)(),c=r.id,d=(0,n.WF)(),m=d.demos,l=m[c]||{},t=l.component;return t&&(0,s.createElement)(t)},o=u}}]);
