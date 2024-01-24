@@ -18,6 +18,9 @@ order: 2
 | action | 上传的地址 | `string | (file) => Promise<string>` | - |
 | maxCount | 限制上传数量。当为 1 时，始终用最新上传的文件代替当前文件 | number | - |
 | onChange | 上传文件改变时的回调 | `(values: Array<UploadFile>) => void` | - |
+| hashCheck | 是否开启查重 | boolean | true |
+| uploadTo | 上传到哪里 | `'server' | 'cos' | 'oss' | 'tos'` | 默认是server | 
+| listType | 和antdDesign的listType一样 | - | - |
 
 ## 参数类型
 

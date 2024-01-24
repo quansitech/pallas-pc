@@ -13,7 +13,7 @@ export default () => {
   return (
     <div>
       <Upload
-        action="https://raw.githubusercontent.com/lailixiaoheihong1/pallas-h5/master/apiData/upload.json"
+        action="/api/upload?cate=image"
         tips="上传组件"
         accept="jpg"
         maxCount={1}

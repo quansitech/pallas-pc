@@ -56,9 +56,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     const RegularUploader = () => {
         const uploadProps: AntdUploadProps = {
             ...defaultUploadPorps,
-            onChange(changeProps) {
-                const { file } = changeProps;
-                console.log("changeProps", changeProps);
+            onChange({ file }) {
                 if (file.status === 'done') {
                     // 上传成功或者失败重新设置FileList
                     if (file.response.status === 1) {
@@ -102,7 +100,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 showDownloadIcon: true,
             },
             customRequest: (callbackProps:any) => {
-                console.log("callbackProps", callbackProps);
                 uploadFn(callbackProps.file).then((res) => {
                     callbackProps.onSuccess(res);
                 });
