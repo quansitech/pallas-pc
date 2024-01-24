@@ -13,7 +13,7 @@ export default () => {
   return (
     <div>
       <Upload
-        action="https://raw.githubusercontent.com/langlixiaoheihong/pallas-h5/master/mock/upload.json"
+        action="https://raw.githubusercontent.com/lailixiaoheihong1/pallas-h5/master/mock/upload.json"
         tips="上传组件"
         accept="jpg"
         maxCount={1}

@@ -81,7 +81,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
                                     new UploadFile(item.id, item.uid, item.url, item.name),
                             ),
                         );
-                    } else if (file.response.status == 0 ) {
+                    } else if (file.response.status === 0 ) {
                         messageApi.error(file.response.info);
                     }
                 }
