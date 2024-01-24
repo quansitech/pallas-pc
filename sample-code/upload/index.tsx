@@ -13,7 +13,7 @@ export default () => {
   return (
     <div>
       <Upload
-        action="/api/upload"
+        action="/api/upload?cate=image"
         tips="上传组件"
         accept="jpg"
         maxCount={1}

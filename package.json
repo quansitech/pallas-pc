@@ -1,6 +1,6 @@
 {
   "name": "@quansitech/pallas-pc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A static site based on dumi",
   "license": "MIT",
   "module": "dist/index.js",
@@ -38,6 +38,7 @@
     ]
   },
   "dependencies": {
+    "@quansitech/file-md5-wasm": "^0.3.1",
     "antd": "^5.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
