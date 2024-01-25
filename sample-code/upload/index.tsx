@@ -7,7 +7,7 @@ import type { UploadFileType } from '@quansitech/pallas-pc/upload/type';
 import React from 'react';
 
 export default () => {
-  const handleChange = (value: UploadFileType) => {
+  const handleChange = (value: UploadFileType[]) => {
     console.log(value);
   };
   return (

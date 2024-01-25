@@ -5,11 +5,11 @@ import {
     message,
     type UploadProps as AntdUploadProps,
 } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import init, { calc_file_hash } from '@quansitech/file-md5-wasm';
 import UploadFile from '../upload-file';
 
-import type { UploadProps } from './type';
+import type { UploadProps, UploadFileType } from './type';
 
 export interface StorageProps {
     file: File,
@@ -26,9 +26,8 @@ const factoryStorage = async (uploadTo: string) => {
 export const Upload: React.FC<UploadProps> = (props) => {
     const { tips, value, onChange = () => { }, uploadTo = 'server',hashCheck=true, listType = 'picture', ...rest } = props;
     const defaultUploadPorps: AntdUploadProps = {
-        accept: rest.accept,
         listType: listType,
-        maxCount: rest.maxCount,
+        ...rest
     };
 
     const antdUploadValue = value?.map((item) => item.toObject());
@@ -41,7 +40,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
             hashId: ''
         };
         if (hashCheck) {
-            await init();
             params.hashId = await calc_file_hash(file);
         }
 
@@ -86,8 +84,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 // 当点击删除时回调
                 if (file.status === 'removed') {
                     onChange(
-                        (antdUploadValue as UploadFile[])
-                            .filter((item) => item.id !== (file as UploadFile).id)
+                        (antdUploadValue as UploadFileType[])
+                            .filter((item) => item.id !== (file as UploadFileType).id)
                             .map(
                                 (item) =>
                                     new UploadFile(item.id, item.uid, item.url, item.name),
@@ -116,5 +114,13 @@ export const Upload: React.FC<UploadProps> = (props) => {
         );
     };
 
-    return <RegularUploader />;
+    useEffect(() => {
+        if (hashCheck) {
+            init();
+        }
+    }, [])
+
+    return <>
+        {RegularUploader()}
+    </>;
 };
