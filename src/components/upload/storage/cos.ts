@@ -22,7 +22,8 @@ export default {
         if(parseInt(resData.status) === 2){
             return {
                 file_id: resData.file_id,
-                url: resData.file_url
+                url: resData.file_url,
+                status: parseInt(resData.status),
             };
         }
 

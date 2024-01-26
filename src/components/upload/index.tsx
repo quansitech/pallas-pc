@@ -57,7 +57,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
             onChange({ file }) {
                 if (file.status === 'done') {
                     // 上传成功或者失败重新设置FileList
-                    if (file.response.status === 1) {
+                    if (file.response.status) {
                         const newValue = antdUploadValue || [];
                         const newFile = {
                             id: file.response.file_id,
