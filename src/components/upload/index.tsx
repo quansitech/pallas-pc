@@ -1,4 +1,4 @@
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import {
     Upload as AntUpload,
     Button,
@@ -15,7 +15,9 @@ export interface StorageProps {
     file: File,
     action: string,
     hashId?: string
-}
+};
+
+const { Dragger } = AntUpload;
 
 
 const factoryStorage = async (uploadTo: string) => {
@@ -24,7 +26,7 @@ const factoryStorage = async (uploadTo: string) => {
 };
 
 export const Upload: React.FC<UploadProps> = (props) => {
-    const { tips, value, onChange = () => { }, uploadTo = 'server',hashCheck=true, listType = 'picture', ...rest } = props;
+    const { tips, value, onChange = () => { }, uploadTo = 'server', hashCheck = true, listType = 'picture', ifDrag, ...rest } = props;
     const defaultUploadPorps: AntdUploadProps = {
         listType: listType,
         ...rest
@@ -77,7 +79,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
                                     new UploadFile(item.id, item.uid, item.url, item.name),
                             ),
                         );
-                    } else if (file.response.status === 0 ) {
+                    } else if (file.response.status === 0) {
                         messageApi.error(file.response.info);
                     }
                 }
@@ -97,7 +99,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
             showUploadList: {
                 showDownloadIcon: true,
             },
-            customRequest: (callbackProps:any) => {
+            customRequest: (callbackProps: any) => {
                 uploadFn(callbackProps.file).then((res) => {
                     callbackProps.onSuccess(res);
                 });
@@ -106,11 +108,24 @@ export const Upload: React.FC<UploadProps> = (props) => {
         return (
             <>
                 {contextHolder}
-                <AntUpload {...uploadProps}>
-                    <Button icon={<UploadOutlined />}>点击上传</Button>
-                </AntUpload>
-                <span style={{ color: '#c9c6c6' }}>{tips}</span>
+                {
+                    ifDrag ? <>
+                        <Dragger {...uploadProps}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">点击或拖拽文件到此区域进行上传</p>
+                            <span className="drag-drop-upload-tips">{tips}</span>
+                        </Dragger>
+                    </> : <>
+                        <AntUpload {...uploadProps}>
+                            <Button icon={<UploadOutlined />}>点击上传</Button>
+                        </AntUpload >
+                        <span style={{ color: '#c9c6c6' }}>{tips}</span>
+                    </>
+                }
             </>
+
         );
     };
 
