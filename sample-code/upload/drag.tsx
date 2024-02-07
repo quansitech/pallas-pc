@@ -18,6 +18,7 @@ export default () => {
         accept="*"
         maxCount={1}
         onChange={handleChange}
+        ifDrag
       />
     </div>
   );

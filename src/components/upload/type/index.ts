@@ -8,6 +8,7 @@ export type UploadProps = Omit<AntdUploadProps, 'value' | 'action' | 'onChange'>
   action: string;
   hashCheck?: boolean;
   uploadTo?: 'server' | 'cos' | 'oss' | 'tos',
+  ifDrag?: boolean;
   onChange?: (values: Array<UploadFileType>) => void;
 };
 
