@@ -28,6 +28,10 @@ export default () => {
         {
             title: '数量',
             component: 'InputNumber',
+            customComponentProps: {
+                max: 10,
+                min: 3,
+            },
             dataIndex: 'budget_quantity',
         },
         {
@@ -86,7 +90,7 @@ export default () => {
             data: data_resource
         }}>
             <Form.Item name="data">
-                <EditableTable columns={columns} summary={summary} onChange={(value) => {
+                <EditableTable columns={columns} summary={summary} hasAddBtn={false} onChange={(value) => {
                     console.log(value);
                 }} />
             </Form.Item>

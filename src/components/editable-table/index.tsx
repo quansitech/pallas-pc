@@ -19,10 +19,11 @@ interface EditableCellProps extends React.TdHTMLAttributes<HTMLTableDataCellElem
     editable?: boolean,
     calc?: (record: any) => React.ReactNode,
     record?: any,
+    customComponentProps?: any,
 }
 
 const EditableCell:React.FC<EditableCellProps> = (props) => {
-    const { children, dataIndex, onChange, component = 'Input', editable, calc, ... restProps } = props;
+    const { children, dataIndex, onChange, component = 'Input', editable, calc, customComponentProps={}, ... restProps } = props;
 
     if(calc){
         return <td {...restProps} >{calc(restProps.record)}</td>;
@@ -30,8 +31,11 @@ const EditableCell:React.FC<EditableCellProps> = (props) => {
 
     const componentProps = {
         defaultValue: restProps?.record && restProps?.record[dataIndex],
-        onChange: onChange
+        onChange: onChange,
+        ...customComponentProps
     }
+
+    console.log('componentProps', componentProps);
 
     return <td {...restProps} >
         {editable ? React.createElement(components[component], componentProps) : children}
@@ -39,7 +43,7 @@ const EditableCell:React.FC<EditableCellProps> = (props) => {
 }
 
 export const EditableTable = (props: EditableTableProps) => {
-    const {value, columns, onChange, summary} = props;
+    const {value, columns, onChange, summary, hasAddBtn=true} = props;
 
     const { componentDisabled } = ConfigProvider.useConfig();
 
@@ -53,6 +57,7 @@ export const EditableTable = (props: EditableTableProps) => {
                 component: col?.component,
                 editable: col.editable === undefined ? true: col.editable,
                 calc: col.calc,
+                customComponentProps: col?.customComponentProps,
                 onChange: (val: any) => {
                     onChange && onChange((value as any[]).map((item,index) => {
                         if(item.key === record.key) {
@@ -107,6 +112,9 @@ export const EditableTable = (props: EditableTableProps) => {
 
 
     return <Table pagination={false} rowClassName='budget-td' components={{ body: { cell: EditableCell } }} summary={summary}
-                  footer={() => (!componentDisabled && <Row justify='center'><Button type='primary' onClick={handleAdd}>新增</Button></Row>)}
+                    {...(!componentDisabled && hasAddBtn ? {
+                            footer: () => (<Row justify='center'><Button type='primary' onClick={handleAdd}>新增</Button></Row>)
+                        } : {})
+                    }
                   dataSource={value} columns={mergedColumns} bordered />
 }
