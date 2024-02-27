@@ -28,9 +28,12 @@ export default () => {
         {
             title: '数量',
             component: 'InputNumber',
-            customComponentProps: {
-                max: 10,
-                min: 3,
+            customComponentPropsFn: (record: any) => {
+                if (record?.key === 1) {
+                    return {
+                        max: 10,
+                    }
+                }
             },
             dataIndex: 'budget_quantity',
         },
