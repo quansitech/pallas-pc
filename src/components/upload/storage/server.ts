@@ -8,7 +8,6 @@ export default {
 
         if(typeof hashId !== "undefined" && hashId !== ""){
             let preUrl = new URLSearchParams(action);
-            console.log('preUrl', preUrl);
             preUrl.append("hash_id", hashId);
             preUrl.append('title', file.name);
 

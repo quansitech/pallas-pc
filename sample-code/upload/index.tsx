@@ -8,7 +8,6 @@ import React from 'react';
 
 export default () => {
   const handleChange = (value: UploadFileType[]) => {
-    console.log(value);
   };
   return (
     <div>

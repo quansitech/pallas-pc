@@ -24,7 +24,6 @@ const checkEmpty = (values: any) => {
 };
 
 const serializeDayjs = (value: any) => {
-  console.log(value);
   return {
     type: 'dayjs',
     value,
@@ -135,7 +134,6 @@ const FormButtons: React.FC<
     const init = async () => {
       if (typeof initFn === 'function') {
         const res = await initFn((form as any).__INTERNAL__.name);
-        console.log(res);
         if (res.status && !!res.data) {
           for (const [key, value] of Object.entries(res.data)) {
             if (Array.isArray(value)) {

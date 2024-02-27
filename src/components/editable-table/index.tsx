@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import { Table, Row, ConfigProvider } from "antd";
 import {Button} from '@quansitech/pallas-pc';
 import Input from "./components/input";
@@ -22,7 +22,7 @@ interface EditableCellProps extends React.TdHTMLAttributes<HTMLTableDataCellElem
     customComponentProps?: any,
 }
 
-const EditableCell:React.FC<EditableCellProps> = (props) => {
+const EditableCell:React.FC<EditableCellProps> = memo((props) => {
     const { children, dataIndex, onChange, component = 'Input', editable, calc, customComponentProps={}, ... restProps } = props;
 
     if(calc){
@@ -35,12 +35,10 @@ const EditableCell:React.FC<EditableCellProps> = (props) => {
         ...customComponentProps
     }
 
-    console.log('componentProps', componentProps);
-
     return <td {...restProps} >
         {editable ? React.createElement(components[component], componentProps) : children}
     </td>
-}
+})
 
 export const EditableTable = (props: EditableTableProps) => {
     const {value, columns, onChange, summary, hasAddBtn=true} = props;
@@ -57,7 +55,7 @@ export const EditableTable = (props: EditableTableProps) => {
                 component: col?.component,
                 editable: col.editable === undefined ? true: col.editable,
                 calc: col.calc,
-                customComponentProps: col?.customComponentProps,
+                customComponentProps: typeof col.customComponentPropsFn === 'function' ? col.customComponentPropsFn(record) : {},
                 onChange: (val: any) => {
                     onChange && onChange((value as any[]).map((item,index) => {
                         if(item.key === record.key) {

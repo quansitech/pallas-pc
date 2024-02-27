@@ -15,7 +15,6 @@ export default () => {
   // 表单被触发submit事件的回调
   const onFinish = async (values: any): Promise<void> => {
     // values是表单的数据
-    console.log(values);
     setSubmitting(true);
     await fetch('/api/submit', {
       method: 'POST',
@@ -27,7 +26,6 @@ export default () => {
   // 获取暂存的数据
   const draftInit = async (val: string): Promise<ApiData> => {
     // val是表单的name
-    console.log(val);
     const res: Response = await fetch(`/api/Staging?name=${val}`);
     const data: ApiData = await res.json();
     return data;
@@ -36,7 +34,6 @@ export default () => {
   // 点击暂存按钮触发保存
   const draftSaveFn = async (val: draftReturnData): Promise<ApiData> => {
     // val.form_name是表单的名字，value.form_data是表单的数据
-    console.log(val.form_name, val.form_data);
     const res = await fetch('/api/Staging', {
       method: 'POST',
       body: JSON.stringify(val),

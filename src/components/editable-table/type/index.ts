@@ -7,7 +7,7 @@ export type ColumnType<T> = Omit<AntdColumnType<T>, 'dataIndex' | 'title'> & {
     component?: string,
     editable?: boolean,
     calc?: (value: any) => React.ReactNode,
-    customComponentProps?: any,
+    customComponentPropsFn?: (record: any) => any,
 };
 
 export type EditableTableProps = {
