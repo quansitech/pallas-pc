@@ -15,5 +15,5 @@ export type EditableTableProps = {
     columns: ColumnType<any>[],
     onChange?: (value: Array<any>) => void,
     summary?: TableProps<any>['summary'],
-    hasAddBtn?: boolean,
+    canUpdateNum?: boolean,
 }

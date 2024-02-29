@@ -41,7 +41,7 @@ const EditableCell:React.FC<EditableCellProps> = memo((props) => {
 })
 
 export const EditableTable = (props: EditableTableProps) => {
-    const {value, columns, onChange, summary, hasAddBtn=true} = props;
+    const {value, columns, onChange, summary, canUpdateNum=true} = props;
 
     const { componentDisabled } = ConfigProvider.useConfig();
 
@@ -94,7 +94,7 @@ export const EditableTable = (props: EditableTableProps) => {
         onChange && onChange([...newValue, newVal]);
     }
 
-    if(!componentDisabled){
+    if(!componentDisabled && canUpdateNum){
         mergedColumns.push({
             title: '操作',
             dataIndex: 'operation',
@@ -110,7 +110,7 @@ export const EditableTable = (props: EditableTableProps) => {
 
 
     return <Table pagination={false} rowClassName='budget-td' components={{ body: { cell: EditableCell } }} summary={summary}
-                    {...(!componentDisabled && hasAddBtn ? {
+                    {...(!componentDisabled && canUpdateNum ? {
                             footer: () => (<Row justify='center'><Button type='primary' onClick={handleAdd}>新增</Button></Row>)
                         } : {})
                     }
