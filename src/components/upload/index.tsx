@@ -5,7 +5,7 @@ import {
     message,
     type UploadProps as AntdUploadProps,
 } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import init, { calc_file_hash } from '@quansitech/file-md5-wasm';
 import UploadFile from '../upload-file';
 
@@ -25,9 +25,6 @@ const factoryStorage = async (uploadTo: string) => {
     return storage.default;
 };
 
-const toString = (value: any):string => {
-    return value + '';
-}
 
 export const Upload: React.FC<UploadProps> = (props) => {
     const { tips, value, onChange = () => { }, uploadTo = 'server', hashCheck = true, listType = 'picture', ifDrag, ...rest } = props;
@@ -36,7 +33,10 @@ export const Upload: React.FC<UploadProps> = (props) => {
         ...rest
     };
 
-    const antdUploadValue = value?.map((item) => item.toObject());
+    const antdUploadValue: any = value?.map((item) => {
+        let obj = item.toObject();
+        return Object.assign(obj, {thumbUrl: obj.url, status: 'done'});
+    });
     const [messageApi, contextHolder] = message.useMessage();
 
     const uploadFn = async (file: File) => {
@@ -57,11 +57,12 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
     }
 
-    const RegularUploader = () => {
+    const regularUploader = () => {
         const uploadProps: AntdUploadProps = {
             ...defaultUploadPorps,
             onChange({ file }) {
                 if (file.status === 'done') {
+                    console.log('file', file);
                     // 上传成功或者失败重新设置FileList
                     if (file.response.status) {
                         const newValue = antdUploadValue || [];
@@ -90,8 +91,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 // 当点击删除时回调
                 if (file.status === 'removed') {
                     onChange(
-                        (antdUploadValue as UploadFileType[])
-                            .filter((item) => toString(item.id) !== toString((file as UploadFileType).id))
+                        (antdUploadValue as any[])
+                            .filter((item) => item.id !== (file as any).id)
                             .map(
                                 (item) =>
                                     new UploadFile(item.id, item.uid, item.url, item.name),
@@ -99,11 +100,12 @@ export const Upload: React.FC<UploadProps> = (props) => {
                     );
                 }
             },
-            defaultFileList: antdUploadValue,
+            fileList: antdUploadValue,
             showUploadList: {
                 showDownloadIcon: true,
             },
             customRequest: (callbackProps: any) => {
+                console.log('callbackProps', callbackProps);
                 uploadFn(callbackProps.file).then((res) => {
                     callbackProps.onSuccess(res);
                 });
@@ -137,9 +139,9 @@ export const Upload: React.FC<UploadProps> = (props) => {
         if (hashCheck) {
             init();
         }
-    }, [])
+    }, []);
 
     return <>
-        {RegularUploader()}
+        {regularUploader()}
     </>;
 };
