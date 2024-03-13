@@ -25,6 +25,10 @@ const factoryStorage = async (uploadTo: string) => {
     return storage.default;
 };
 
+const toString = (value: any):string => {
+    return value + '';
+}
+
 export const Upload: React.FC<UploadProps> = (props) => {
     const { tips, value, onChange = () => { }, uploadTo = 'server', hashCheck = true, listType = 'picture', ifDrag, ...rest } = props;
     const defaultUploadPorps: AntdUploadProps = {
@@ -87,7 +91,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 if (file.status === 'removed') {
                     onChange(
                         (antdUploadValue as UploadFileType[])
-                            .filter((item) => item.id !== (file as UploadFileType).id)
+                            .filter((item) => toString(item.id) !== toString((file as UploadFileType).id))
                             .map(
                                 (item) =>
                                     new UploadFile(item.id, item.uid, item.url, item.name),
