@@ -95,7 +95,7 @@ export const EditableTable = (props: EditableTableProps) => {
     }
 
     if(!componentDisabled && canUpdateNum){
-        mergedColumns.push({
+        canUpdateNum !== 'add_only' && mergedColumns.push({
             title: '操作',
             dataIndex: 'operation',
             editable: false,
@@ -110,7 +110,7 @@ export const EditableTable = (props: EditableTableProps) => {
 
 
     return <Table pagination={false} rowClassName='budget-td' components={{ body: { cell: EditableCell } }} summary={summary}
-                    {...(!componentDisabled && canUpdateNum ? {
+                    {...(!componentDisabled && canUpdateNum && canUpdateNum !== 'delete_only' ? {
                             footer: () => (<Row justify='center'><Button type='primary' onClick={handleAdd}>新增</Button></Row>)
                         } : {})
                     }
