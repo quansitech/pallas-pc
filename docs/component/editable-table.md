@@ -17,7 +17,7 @@ order: 2
 | columns | 表格列的配置描述，具体项见下方说明 | array | = |
 | onChange | 数据发生改变时触发的回调 | `(value: Array<any>) => void` | = |
 | summary | 总结栏(详细说明请查看antd-design的table组件的summary) | = |
-| canUpdateNum | 是否允许数据的新增或者删除 | boolean | true |
+| canUpdateNum | 是否允许数据的新增或者删除 | boolean 或者 'delete_only' 或者 'add_only' | true |
 
 ### 参数columns
 columns参数是基于antd-design的table组件的columns属性进行二次扩展的，下面将只说明扩展字段，如想查看其它字段，请去antd-design官网查看。  

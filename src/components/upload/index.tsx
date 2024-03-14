@@ -5,7 +5,7 @@ import {
     message,
     type UploadProps as AntdUploadProps,
 } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import init, { calc_file_hash } from '@quansitech/file-md5-wasm';
 import UploadFile from '../upload-file';
 
@@ -25,6 +25,7 @@ const factoryStorage = async (uploadTo: string) => {
     return storage.default;
 };
 
+
 export const Upload: React.FC<UploadProps> = (props) => {
     const { tips, value, onChange = () => { }, uploadTo = 'server', hashCheck = true, listType = 'picture', ifDrag, ...rest } = props;
     const defaultUploadPorps: AntdUploadProps = {
@@ -32,7 +33,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
         ...rest
     };
 
-    const antdUploadValue = value?.map((item) => item.toObject());
+    const antdUploadValue: any = value?.map((item) => item.toObject() );
     const [messageApi, contextHolder] = message.useMessage();
 
     const uploadFn = async (file: File) => {
@@ -53,7 +54,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
     }
 
-    const RegularUploader = () => {
+    const regularUploader = () => {
         const uploadProps: AntdUploadProps = {
             ...defaultUploadPorps,
             onChange({ file }) {
@@ -86,8 +87,11 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 // 当点击删除时回调
                 if (file.status === 'removed') {
                     onChange(
-                        (antdUploadValue as UploadFileType[])
-                            .filter((item) => item.id !== (file as UploadFileType).id)
+                        (antdUploadValue as any[])
+                            .filter((item) => {
+                                let currentId = (file as any).id || (file as any).response.file_id;
+                                return item.id !== currentId;
+                            })
                             .map(
                                 (item) =>
                                     new UploadFile(item.id, item.uid, item.url, item.name),
@@ -99,7 +103,11 @@ export const Upload: React.FC<UploadProps> = (props) => {
             showUploadList: {
                 showDownloadIcon: true,
             },
+            onPreview: (file) => {
+                window.open(file?.url || file?.response?.url, '_blank');
+            },
             customRequest: (callbackProps: any) => {
+                console.log('callbackProps', callbackProps);
                 uploadFn(callbackProps.file).then((res) => {
                     callbackProps.onSuccess(res);
                 });
@@ -133,9 +141,9 @@ export const Upload: React.FC<UploadProps> = (props) => {
         if (hashCheck) {
             init();
         }
-    }, [])
+    }, []);
 
     return <>
-        {RegularUploader()}
+        {regularUploader()}
     </>;
 };

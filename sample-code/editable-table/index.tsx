@@ -93,7 +93,7 @@ export default () => {
             data: data_resource
         }}>
             <Form.Item name="data">
-                <EditableTable columns={columns} summary={summary} canUpdateNum={false} onChange={(value) => {
+                <EditableTable columns={columns} summary={summary} canUpdateNum={'delete_only'} onChange={(value) => {
                     console.log(value);
                 }} />
             </Form.Item>
