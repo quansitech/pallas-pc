@@ -33,10 +33,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
         ...rest
     };
 
-    const antdUploadValue: any = value?.map((item) => {
-        let obj = item.toObject();
-        return Object.assign(obj, {thumbUrl: obj.url, status: 'done'});
-    });
+    const antdUploadValue: any = value?.map((item) => item.toObject() );
     const [messageApi, contextHolder] = message.useMessage();
 
     const uploadFn = async (file: File) => {
@@ -62,7 +59,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
             ...defaultUploadPorps,
             onChange({ file }) {
                 if (file.status === 'done') {
-                    console.log('file', file);
                     // 上传成功或者失败重新设置FileList
                     if (file.response.status) {
                         const newValue = antdUploadValue || [];
@@ -92,7 +88,10 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 if (file.status === 'removed') {
                     onChange(
                         (antdUploadValue as any[])
-                            .filter((item) => item.id !== (file as any).id)
+                            .filter((item) => {
+                                let currentId = (file as any).id || (file as any).response.file_id;
+                                return item.id !== currentId;
+                            })
                             .map(
                                 (item) =>
                                     new UploadFile(item.id, item.uid, item.url, item.name),
@@ -100,9 +99,12 @@ export const Upload: React.FC<UploadProps> = (props) => {
                     );
                 }
             },
-            fileList: antdUploadValue,
+            defaultFileList: antdUploadValue,
             showUploadList: {
                 showDownloadIcon: true,
+            },
+            onPreview: (file) => {
+                window.open(file?.url || file?.response?.url, '_blank');
             },
             customRequest: (callbackProps: any) => {
                 console.log('callbackProps', callbackProps);
