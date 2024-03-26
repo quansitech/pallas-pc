@@ -33,7 +33,10 @@ export const Upload: React.FC<UploadProps> = (props) => {
         ...rest
     };
 
-    const antdUploadValue: any = value?.map((item) => item.toObject() );
+    const antdUploadValue: any = value?.map((item) => {
+        const newItem = item.toObject();
+        return Object.assign(newItem, { uid: newItem.uid || newItem.id  });
+    } );
     const [messageApi, contextHolder] = message.useMessage();
 
     const uploadFn = async (file: File) => {
