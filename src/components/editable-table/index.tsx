@@ -3,19 +3,21 @@ import { Table, Row, ConfigProvider } from "antd";
 import {Button} from '@quansitech/pallas-pc';
 import Input from "./components/input";
 import InputNumber from "./components/input-number";
+import TextArea from "./components/textArea";
 import type {EditableTableProps, ColumnType} from './type';
 import "./index.css";
 
 const components = {
     Input,
     InputNumber,
+    TextArea,
 }
 
 interface EditableCellProps extends React.TdHTMLAttributes<HTMLTableDataCellElement> {
     children?: React.ReactNode,
     dataIndex: string,
     onChange?: (val: any) => void,
-    component: 'Input' | 'InputNumber',
+    component: 'Input' | 'InputNumber' | 'TextArea',
     editable?: boolean,
     calc?: (record: any) => React.ReactNode,
     record?: any,

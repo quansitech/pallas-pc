@@ -1,0 +1,18 @@
+.component_editable_table_text_area {
+    width: 100%;
+    .component_editable_table_text_area_input {
+        border: none;
+        resize: none;
+        &.focus {
+            border-color: #1677ff;
+            box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+            outline: 0;
+            border-width: 1px;
+        }
+    }
+    .component_editable_table_text_area_length {
+        text-align: right;
+        color: #999;
+        font-size: 14px;
+    }
+}

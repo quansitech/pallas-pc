@@ -27,12 +27,11 @@ export default () => {
         },
         {
             title: '数量',
-            component: 'InputNumber',
+            component: 'TextArea',
             customComponentPropsFn: (record: any) => {
-                if (record?.key === 1) {
-                    return {
-                        max: 10,
-                    }
+                return {
+                    maxLength: 10,
+                    minLength: 5,
                 }
             },
             dataIndex: 'budget_quantity',
