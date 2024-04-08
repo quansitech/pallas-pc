@@ -25,12 +25,10 @@ columns参数是基于antd-design的table组件的columns属性进行二次扩�
 |----- | ---- | ---- | ----- |
 | title | 列头显示文字 | string | - |
 | dataIndex | 列数据在数据项中对应的路径 | string | - |
-| component | 列中展示的组件 | 'input' 或者 'inputNumber' | - |
+| component | 列中展示的组件 | 'Input' 或者 'InputNumber' 或者 'TextArea' | - |
 | editable | 该项是否可编辑 | boolean | - |
 | calc | 函数可用来计算总和 |  `(value: any) => React.ReactNode` | - |
-| customComponentPropsFn | 支持antdDesign的input、inputNumber组件的参数 | any | - |
-
-
+| customComponentPropsFn | 支持antdDesign的input、inputNumber组件的参数。支持原生textArea的所有参数 | any | - |
 
 ## 参数类型
 
