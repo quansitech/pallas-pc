@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./index.scss";
+import "./index.css";
 
 const TextArea:React.FC<any> = (props) => {
     const { onChange, value, minLength, maxLength, ...rest } = props;
