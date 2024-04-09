@@ -24,7 +24,7 @@ const TextArea:React.FC<any> = (props) => {
 
     const textAreaRef = useCallback((node: any) => {
         if (rest.autoSize && componentDisabled && node && node.resizableTextArea && node.resizableTextArea.textArea) {
-            rest.autoSize && (node.resizableTextArea.textArea.style.height = `${getHeigth(node.resizableTextArea.textArea)}px`);
+            node.resizableTextArea.textArea.style.height = `${getHeigth(node.resizableTextArea.textArea)}px`;
         }
     }, [componentDisabled]);
 
