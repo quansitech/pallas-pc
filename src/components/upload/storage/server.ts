@@ -1,3 +1,4 @@
+import Utils from "../utils";
 
 export default {
     upload: async (file: File, action: string, hashId?: string) => {
@@ -15,6 +16,9 @@ export default {
             
             const resData = await res.json();
             if(resData.status){
+                return resData;
+            }
+            if (Utils.handleError.hasError(resData)){
                 return resData;
             }
             server_url = resData.server_url;
