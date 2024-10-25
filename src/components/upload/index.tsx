@@ -10,6 +10,7 @@ import init, { calc_file_hash } from '@quansitech/file-md5-wasm';
 import UploadFile from '../upload-file';
 
 import type { UploadProps, UploadFileType } from './type';
+import Utils from "./utils";
 
 export interface StorageProps {
     file: File,
@@ -57,6 +58,40 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
     }
 
+    const addFile = (fileId, uid, url, title) => {
+        const newValue = antdUploadValue || [];
+        const newFile = {
+            id: fileId,
+            uid: uid,
+            url: url,
+            name: title,
+        };
+        let cloneList = [...newValue, newFile];
+        if (rest.maxCount === 1) {
+            cloneList = cloneList.slice(-1);
+        } else {
+            cloneList = cloneList.slice(0, rest.maxCount);
+        }
+
+        onChange(cloneList.map(
+            (item) =>
+                new UploadFile(item.id, item.uid, item.url, item.name),
+            )
+        );
+    }
+
+    const removeFile = (fileId) => {
+        onChange((antdUploadValue as any[])
+            ?.filter((item) => {
+                return item.id !== fileId;
+            })
+            ?.map(
+                (item) =>
+                    new UploadFile(item.id, item.uid, item.url, item.name),
+            )
+        );
+    }
+
     const regularUploader = () => {
         const uploadProps: AntdUploadProps = {
             ...defaultUploadPorps,
@@ -64,42 +99,14 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 if (file.status === 'done') {
                     // 上传成功或者失败重新设置FileList
                     if (file.response.status) {
-                        const newValue = antdUploadValue || [];
-                        const newFile = {
-                            id: file.response.file_id,
-                            uid: file.uid,
-                            url: file.response.url,
-                            name: file.response.title,
-                        };
-                        let cloneList = [...newValue, newFile];
-                        if (rest.maxCount === 1) {
-                            cloneList = cloneList.slice(-1);
-                        } else {
-                            cloneList = cloneList.slice(0, rest.maxCount);
-                        }
-                        onChange(
-                            cloneList.map(
-                                (item) =>
-                                    new UploadFile(item.id, item.uid, item.url, item.name),
-                            ),
-                        );
-                    } else if (file.response.status === 0) {
+                        addFile(file.response.file_id, file.uid, file.response.url, file.response.title);
+                    } else if (parseInt(file.response.status) === 0) {
                         messageApi.error(file.response.info);
                     }
                 }
                 // 当点击删除时回调
                 if (file.status === 'removed') {
-                    onChange(
-                        (antdUploadValue as any[])
-                            .filter((item) => {
-                                let currentId = (file as any).id || (file as any).response.file_id;
-                                return item.id !== currentId;
-                            })
-                            .map(
-                                (item) =>
-                                    new UploadFile(item.id, item.uid, item.url, item.name),
-                            ),
-                    );
+                    removeFile((file as any)?.id || (file as any)?.response?.file_id);
                 }
             },
             defaultFileList: antdUploadValue,
@@ -110,9 +117,12 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 window.open(file?.url || file?.response?.url, '_blank');
             },
             customRequest: (callbackProps: any) => {
-                console.log('callbackProps', callbackProps);
                 uploadFn(callbackProps.file).then((res) => {
-                    callbackProps.onSuccess(res);
+                    if (Utils.handleError.hasError(res)){
+                        callbackProps.onError(new Error(Utils.handleError.extractError(res)))
+                    }else{
+                        callbackProps.onSuccess(res);
+                    }
                 });
             },
         };

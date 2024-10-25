@@ -26,6 +26,9 @@ export default {
                 status: parseInt(resData.status),
             };
         }
+        if (Utils.handleError.hasError(resData)){
+            return resData;
+        }
         
         const new_multipart_params = resData.params;
 

@@ -26,6 +26,9 @@ export default {
                 status: parseInt(resData.status),
             };
         }
+        if (Utils.handleError.hasError(resData)){
+            return resData;
+        }
 
         
         const ossMeta = resData['oss_meta'] ? JSON.parse(resData['oss_meta']) : {};

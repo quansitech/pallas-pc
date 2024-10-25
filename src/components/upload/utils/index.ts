@@ -73,7 +73,39 @@ const Util = {
             suffix = filename.substring(pos);
         }
         return suffix;
-    } 
+    },
+    handleError:{
+        hasErrMsg: (res:any)=>{
+            return res.hasOwnProperty('err_msg')
+        },
+        hasErrInfo: (res:any)=>{
+            return res.hasOwnProperty('status') && parseInt(res.status) === 0 && res.hasOwnProperty('info')
+        },
+        hasError: (res:any) => {
+            const thisObj = Util.handleError;
+
+            if (thisObj.hasErrMsg(res)){
+                return res;
+            }
+            if (thisObj.hasErrInfo(res)){
+                return res;
+            }
+
+            return false;
+        },
+        extractError:(res:any)=>{
+            const thisObj = Util.handleError;
+
+            if (thisObj.hasErrMsg(res)){
+                return res.err_msg;
+            }
+            if (thisObj.hasErrInfo(res)){
+                return res.info;
+            }
+
+            return ;
+        }
+    }
 }
 
 export default Util;
