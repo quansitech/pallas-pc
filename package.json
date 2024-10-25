@@ -1,6 +1,6 @@
 {
   "name": "@quansitech/pallas-pc",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "A static site based on dumi",
   "license": "MIT",
   "module": "dist/index.js",
