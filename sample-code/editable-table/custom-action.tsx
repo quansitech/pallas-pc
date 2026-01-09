@@ -51,7 +51,7 @@ const AdvancedUsage = () => {
             render: (_, record) => (<>
                 <Button style={{ color: '#fff', border: 'unset', outline: 'unset' }} ghost icon={<MinusCircleOutlined
                     style={{ fontSize: '20px', color: '#ff4d4f', cursor: 'pointer' }}
-                />} confirm={{ title: '删除', description: '确定要删除吗?' }} onClick={() => { console.log('del', record.key); tableRef.current?.deleteRow(record.key) }}>
+                />} confirm={{ title: '删除', description: '确定要删除吗?' }} onClick={() => { tableRef.current?.deleteRow(record.key) }}>
 
                 </Button>
             </>
@@ -76,6 +76,9 @@ const AdvancedUsage = () => {
                 <EditableTable
                     columns={columns as any}
                     canUpdateNum={'add_only'}
+                    onChange={(value) => {
+                        console.log(value);
+                    }}
                     ref={tableRef}
                 />
             </Form.Item>
