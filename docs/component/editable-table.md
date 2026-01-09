@@ -30,7 +30,12 @@ columns参数是基于antd-design的table组件的columns属性进行二次扩�
 | calc | 函数可用来计算总和 |  `(value: any) => React.ReactNode` | - |
 | customComponentPropsFn | 支持antdDesign的input、inputNumber组件的参数。支持原生textArea的所有参数 | any | - |
 
-## 参数类型
+## 基础用法
 
 
 <code src="../../sample-code/editable-table/index.tsx"></code>
+
+
+## 自定义按钮
+
+<code src="../../sample-code/editable-table/custom-action.tsx"></code>
