@@ -132,15 +132,18 @@ export const Upload: React.FC<UploadProps> = (props) => {
                 {
                     ifDrag ? <>
                         <Dragger {...uploadProps}>
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">点击或拖拽文件到此区域进行上传</p>
-                            <span className="drag-drop-upload-tips">{tips}</span>
+                            { uploadProps?.children ? uploadProps?.children : <>
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined />
+                                    </p>
+                                    <p className="ant-upload-text">点击或拖拽文件到此区域进行上传</p>
+                                    <span className="drag-drop-upload-tips">{tips}</span>
+                                </>
+                            }
                         </Dragger>
                     </> : <>
                         <AntUpload {...uploadProps}>
-                            <Button icon={<UploadOutlined />}>点击上传</Button>
+                            { uploadProps?.children ? uploadProps?.children : <Button icon={<UploadOutlined />}>点击上传</Button> }
                         </AntUpload >
                         <span style={{ color: '#c9c6c6' }}>{tips}</span>
                     </>
