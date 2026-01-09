@@ -11,7 +11,7 @@ import type {
   draftReturnData,
 } from './type';
 
-import './index.less';
+import './index.css';
 
 const checkEmpty = (values: any) => {
   let keys = Object.keys(values);
