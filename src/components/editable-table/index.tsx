@@ -1,4 +1,4 @@
-import React, { memo, forwardRef, useImperativeHandle, useRef } from "react";
+import React, { memo, forwardRef, useImperativeHandle, useRef, useCallback } from "react";
 import { Table, Row, ConfigProvider } from "antd";
 import { Button } from '@quansitech/pallas-pc';
 import Upload from "./components/upload";
@@ -50,10 +50,6 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
 
     const { componentDisabled } = ConfigProvider.useConfig();
 
-    useImperativeHandle(ref, () => ({
-        addRow: handleAdd,
-        deleteRow: handleDelete,
-    }));
     const valueRef = useRef<any[]>(value);
     valueRef.current = value;
 
@@ -80,11 +76,11 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
         } as ColumnType<any>;
     });
 
-    const handleDelete = (key: string | number) => {
+    const handleDelete = useCallback((key: string | number) => {
         onChange && onChange((value as Array<any>).filter(item => item.key !== key));
-    }
+    }, [value, onChange]);
 
-    const handleAdd = () => {
+    const handleAdd = useCallback(() => {
         let index = 0;
         const newValue = valueRef.current ?? [];
         newValue.forEach(item => {
@@ -102,7 +98,12 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
         newVal['key'] = index + 1;
 
         onChange && onChange([...newValue, newVal]);
-    }
+    }, [valueRef.current, onChange, columns]);
+
+    useImperativeHandle(ref, () => ({
+        addRow: handleAdd,
+        deleteRow: handleDelete,
+    }), [handleAdd, handleDelete]);
 
     if (!componentDisabled && canUpdateNum) {
         canUpdateNum !== 'add_only' && mergedColumns.push({
