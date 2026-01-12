@@ -58,7 +58,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
     }
 
-    const addFile = (fileId, uid, url, title) => {
+    const addFile = (fileId: string | number, uid: string, url: string, title: string) => {
         const newValue = antdUploadValue || [];
         const newFile = {
             id: fileId,
@@ -80,7 +80,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
         );
     }
 
-    const removeFile = (fileId) => {
+    const removeFile = (fileId: string | number) => {
         onChange((antdUploadValue as any[])
             ?.filter((item) => {
                 return item.id !== fileId;
