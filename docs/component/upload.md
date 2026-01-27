@@ -11,18 +11,19 @@ order: 2
 
 ## 参数
 
-| 属性 | 说明 | 类型 | 默认值 |
-| ---- | --- | ---- | ------ |
-| tips | 提示文字 | string | - |
-| value | 值 | `Array<UploadFile>` | - |
-| accept | 接受上传的文件类型, 详见可以去参考 antd upload 组件同样字段 | string | - |
-| action | 上传的地址 | `string 或者 (file) => Promise<string>` | - |
-| maxCount | 限制上传数量。当为 1 时，始终用最新上传的文件代替当前文件 | number | - |
-| onChange | 上传文件改变时的回调 | `(values: Array<UploadFile>) => void` | - |
-| hashCheck | 是否开启查重 | boolean | true |
-| uploadTo | 上传到哪里 | 'server' 或者 'cos' 或者 'oss' 或者 'tos' | 默认是server | 
-| listType | 和antdDesign的listType一样 | - | - |
-| ifDrag | 是否开启拖拽模式上传 | boolean | - |
+| 属性      | 说明                                                        | 类型                                      | 默认值        |
+| --------- | ----------------------------------------------------------- | ----------------------------------------- | ------------- |
+| tips      | 提示文字                                                    | string                                    | -             |
+| value     | 值                                                          | `Array<UploadFile>`                       | -             |
+| accept    | 接受上传的文件类型, 详见可以去参考 antd upload 组件同样字段 | string                                    | -             |
+| action    | 上传的地址                                                  | `string 或者 (file) => Promise<string>`   | -             |
+| maxCount  | 限制上传数量。当为 1 时，始终用最新上传的文件代替当前文件   | number                                    | -             |
+| onChange  | 上传文件改变时的回调                                        | `(values: Array<UploadFile>) => void`     | -             |
+| hashCheck | 是否开启查重                                                | boolean                                   | true          |
+| uploadTo  | 上传到哪里                                                  | 'server' 或者 'cos' 或者 'oss' 或者 'tos' | 默认是 server |
+| listType  | 和 antdDesign 的 listType 一样                              | -                                         | -             |
+| ifDrag    | 是否开启拖拽模式上传                                        | boolean                                   | -             |
+| crop      | 上传前裁切图片                                              | `{ratio: string;quality?: number}`        | -             |
 
 ## 参数类型
 
@@ -34,6 +35,7 @@ export type UploadProps = {
   action?: AntdUploadProps['action'];
   maxCount?: number;
   onChange?: (values: Array<UploadFile>) => void;
+  crop?: { ratio: string; quality?: number};
 };
 export type UploadFileType = UploadFile;
 ```
