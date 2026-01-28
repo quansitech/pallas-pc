@@ -16,6 +16,7 @@ export type EditableTableProps = {
     onChange?: (value: Array<any>) => void,
     summary?: TableProps<any>['summary'],
     canUpdateNum?: boolean | string,
+    rowKey?: string | ((record: any) => React.Key),
 }
 
 export interface EditableTableRef {

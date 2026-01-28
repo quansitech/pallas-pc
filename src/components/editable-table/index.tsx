@@ -46,12 +46,17 @@ const EditableCell: React.FC<EditableCellProps> = memo((props) => {
 })
 
 export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((props: EditableTableProps, ref) => {
-    const { value = [], columns, onChange, summary, canUpdateNum = true } = props;
+    const { value = [], columns, onChange, summary, canUpdateNum = true, rowKey = 'key' } = props;
 
     const { componentDisabled } = ConfigProvider.useConfig();
 
     const valueRef = useRef<any[]>(value);
     valueRef.current = value;
+
+    // 获取行 key 的辅助函数
+    const getRowKey = useCallback((record: any): React.Key => {
+        return typeof rowKey === 'function' ? rowKey(record) : record[rowKey];
+    }, [rowKey]);
 
     const mergedColumns = columns.map(col => {
         return {
@@ -65,9 +70,11 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
                 calc: col.calc,
                 customComponentProps: typeof col.customComponentPropsFn === 'function' ? col.customComponentPropsFn(record) : {},
                 onChange: (val: any) => {
-                    onChange && onChange((value as any[]).map((item, index) => {
-                        if (item.key === record.key) {
-                            item[col.dataIndex] = val
+                    const recordKey = getRowKey(record);
+                    onChange && onChange((value as any[]).map((item) => {
+                        if (getRowKey(item) === recordKey) {
+                            // 创建新对象 - IMMUTABILITY 修复
+                            return { ...item, [col.dataIndex]: val };
                         }
                         return item;
                     }))
@@ -76,29 +83,23 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
         } as ColumnType<any>;
     });
 
-    const handleDelete = useCallback((key: string | number) => {
-        onChange && onChange((value as Array<any>).filter(item => item.key !== key));
-    }, [value, onChange]);
+    const handleDelete = useCallback((key: React.Key) => {
+        onChange && onChange((value as Array<any>).filter(item => getRowKey(item) !== key));
+    }, [value, onChange, getRowKey]);
 
     const handleAdd = useCallback(() => {
-        let index = 0;
-        const newValue = valueRef.current ?? [];
-        newValue.forEach(item => {
-            if (item.key > index) {
-                index = item.key;
-            }
-        })
-
         const newVal: { [key: string]: any } = {};
         columns.forEach(item => {
             if (item.editable === true) {
                 newVal[item.dataIndex] = '';
             }
         });
-        newVal['key'] = index + 1;
+        // 使用时间戳生成唯一 key
+        const keyField = typeof rowKey === 'string' ? rowKey : 'key';
+        newVal[keyField] = `__new_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
 
-        onChange && onChange([...newValue, newVal]);
-    }, [valueRef.current, onChange, columns]);
+        onChange && onChange([...(valueRef.current ?? []), newVal]);
+    }, [valueRef.current, onChange, columns, rowKey]);
 
     useImperativeHandle(ref, () => ({
         addRow: handleAdd,
@@ -112,7 +113,7 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
             editable: false,
             width: '40px',
             render: (_, record) => (
-                <Button type='primary' danger={true} confirm={{ title: '删除', description: '确定要删除吗?' }} onClick={() => handleDelete(record.key)}>删除</Button>
+                <Button type='primary' danger={true} confirm={{ title: '删除', description: '确定要删除吗?' }} onClick={() => handleDelete(getRowKey(record))}>删除</Button>
             )
 
         })
@@ -125,5 +126,6 @@ export const EditableTable = forwardRef<EditableTableRef, EditableTableProps>((p
             footer: () => (<Row justify='center'><Button type='primary' onClick={handleAdd}>新增</Button></Row>)
         } : {})
         }
+        rowKey={rowKey}
         dataSource={value} columns={mergedColumns} bordered />
 })

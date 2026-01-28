@@ -18,6 +18,7 @@ order: 2
 | onChange | 数据发生改变时触发的回调 | `(value: Array<any>) => void` | = |
 | summary | 总结栏(详细说明请查看antd-design的table组件的summary) | = |
 | canUpdateNum | 是否允许数据的新增或者删除 | boolean 或者 'delete_only' 或者 'add_only' | true |
+| rowKey | 表格行 key 的取值，可以是字符串或函数 | string \| ((record: any) => React.Key) | 'key' |
 
 ### 参数columns
 columns参数是基于antd-design的table组件的columns属性进行二次扩展的，下面将只说明扩展字段，如想查看其它字段，请去antd-design官网查看。  
@@ -39,3 +40,9 @@ columns参数是基于antd-design的table组件的columns属性进行二次扩�
 ## 自定义按钮
 
 <code src="../../sample-code/editable-table/custom-action.tsx"></code>
+
+## 自定义 rowKey
+
+当数据使用 `id`、`uuid` 等字段作为唯一标识时，可以通过 `rowKey` 属性指定。新增行会自动使用时间戳生成唯一标识。
+
+<code src="../../sample-code/editable-table/custom-rowkey.tsx"></code>
